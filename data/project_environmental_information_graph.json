@@ -1,0 +1,9 @@
+[
+    {
+        "project_environmental_information_id": 1,
+        "trees_planted_actual": "900",
+        "co2_removed_actual": "9000",
+        "trees_planted_actual_timestamp": "2023-10-01T12:00:00Z",
+        "co2_removed_actual_timestamp": "2023-10-01T12:00:00Z"
+    }  
+]

@@ -1,0 +1,193 @@
+import psycopg2
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def conectar():
+    try:
+        conexion = psycopg2.connect(
+            database=os.getenv('DATABASE_NAME'),
+            user=os.getenv('DATABASE_USER'),
+            password=os.getenv('DATABASE_PASSWORD'),
+            host=os.getenv('DATABASE_HOST'),
+            port=os.getenv('DATABASE_PORT')
+        )
+        return conexion
+    except Exception as e:
+        print("Error al conectar a la base de datos:", e)
+
+def generic_insert(sql, data, multiple):
+    con = conectar()
+    cur = con.cursor()
+    
+    if multiple:
+        ids = []
+        for item in data:
+            cur.execute(sql, item)
+            ids.append(cur.fetchone()[0])
+        result = ids
+    else:
+        cur.execute(sql, data)
+        result = cur.fetchone()[0]  # Obtiene el ID de la inserción única
+    
+    con.commit()
+    cur.close()
+    con.close()
+    
+    return result
+
+
+
+
+def create_locations(list, multiple=False):
+    sql = """
+    INSERT INTO public.locations (
+        country, city, district, postal_code
+    ) VALUES (%s, %s, %s, %s) RETURNING location_id
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_users(list, multiple=False):
+    sql = """
+    INSERT INTO users (
+        location_id, code, is_solar_dev_role, is_financier_role, 
+        is_sponsor_role, is_sme_role, is_admin, id_type, phone, 
+        name, email, contact_email, password, contact_phone, 
+        profile_picture
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING user_id
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_beneficiaries(list, multiple=False):
+    sql = """
+    INSERT INTO public.beneficiaries (
+        bank_account_id, financier_id, beneficiary_name,
+        beneficiary_address_1, beneficiary_address_2
+    ) VALUES (%s, %s, %s, %s, %s) RETURNING beneficiary_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_bank_accounts(list, multiple=False):
+    sql = """
+    INSERT INTO public.bank_accounts (
+        account_name, account_number, account_type,
+        bank_name, swift_code
+    ) VALUES (%s, %s, %s, %s, %s) RETURNING bank_account_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_investor_project_assignments(list, multiple=False):
+    sql = """
+    INSERT INTO public.investor_project_assignments (
+        project_id, financier_id, interest_date,
+        commitment_level, assigned_date
+    ) VALUES (%s, %s, %s, %s, %s) RETURNING investor_assignment_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_financier_payments(list, multiple=False):
+    sql = """
+    INSERT INTO public.financier_payments (
+        investor_assignment_id, amount, "order", payment_date
+    ) VALUES (%s, %s, %s, %s) RETURNING financier_payment_id;
+    """
+    
+    return generic_insert(sql, list, multiple)
+
+def create_financier_receipt_details(list, multiple=False):
+    sql = """
+    INSERT INTO public.financier_receipt_details (
+        investor_assignment_id, transfer_id, transferred_payment_timestamp,
+        registered_payment_timestamp, expected_payment_timestamp, amount,
+        state, pdf, bank_fee
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING financier_receipt_details_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_projects(list, multiple=False):
+    sql = """
+    INSERT INTO public.projects (
+        location_id, name, description, nominal_capacity,
+        estimated_annual_energy, stage, type, technology,
+        power_plant_amount, days_to_participate, num_sponsors,
+        num_financiers, ppa_duration, admin_listing_date, financing_stage
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING project_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_project_development_information(list, multiple=False):
+    sql = """
+    INSERT INTO public.project_development_information (
+        project_id, interest_rate, panel_count, panel_brand,
+        energy_cost_annual, energy_maintenance_cost_annual, energy_tariff,
+        projected_income, maintenance_cost_annual, insurance_cost_annual,
+        drex_cost_annual, radiation_onsite, technical_memo,
+        technical_blueprint, technical_equipment_specs, operation_estimate,
+        construction_starts_estimate, legal_document, commercial_offer,
+        intention_letter, insurance_funding, insurance_completion,
+        insurance_all_risks, insurance_energy_generation, insurance_assets_services
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING project_development_information_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+
+def create_project_maintenance_information(list, multiple=False):
+    sql = """
+    INSERT INTO public.project_maintenance_information (
+        project_id, name, date, description,
+        provider, pictures, report
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s) RETURNING maintenance_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_project_environmental_information(list, multiple=False):
+    sql = """
+    INSERT INTO public.project_environmental_information (
+        project_id, trees_planted_estimated, co2_removed_stimated
+    ) VALUES (%s, %s, %s) RETURNING project_environmental_information_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_project_environmental_information_graph(list, multiple=False):
+    sql = """
+    INSERT INTO public.project_environmental_information_graph (
+        project_environmental_information_id, trees_planted_actual, co2_removed_actual,
+        trees_planted_actual_timestamp, co2_removed_actual_timestamp
+    ) VALUES (%s, %s, %s, %s, %s) RETURNING project_environmental_information_graph_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+def create_project_financial_information(list, multiple=False):
+    sql = """
+    INSERT INTO public.project_financial_information (
+        project_id, energy_fee, success_fee, cost,
+        financier_rate, sponsor_rate, financier_amount,
+        sponsor_amount, financier_raised, sponsor_raised,
+        aggregate_raised, debt_duration, estimated_annual_return
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING project_financial_information_id;
+    """
+
+    return generic_insert(sql, list, multiple)
+
+
+def create_spvs(list, multiple=False):
+    sql = """
+    INSERT INTO public.spvs (
+        project_id, bank_account_id, name,
+        payment_method, country, account_name
+    ) VALUES (%s, %s, %s, %s, %s, %s) RETURNING spv_id;
+    """
+
+    return generic_insert(sql, list, multiple)

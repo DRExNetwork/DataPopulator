@@ -1,0 +1,10 @@
+[
+    {
+        "financier_id": 1,
+        "name": "FinTech Solutions",
+        "tax_id": "FTS-001-123456",
+        "address": "Av. Tech 123, Lima, Perú",
+        "email": "fintech.solutions@example.com",
+        "phone": "+511 123456789"
+    }
+]

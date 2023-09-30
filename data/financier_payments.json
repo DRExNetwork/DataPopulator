@@ -1,0 +1,8 @@
+[
+    {
+        "investor_assignment_id": 1,
+        "amount": 1000.00,
+        "order": "Payment 1",
+        "payment_date": "2023-10-01T12:00:00Z"
+    }      
+]

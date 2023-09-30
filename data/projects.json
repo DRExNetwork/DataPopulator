@@ -1,0 +1,19 @@
+[
+    {
+        "location_id": 1,
+        "name": "Solar Farm A",
+        "description": "A large solar farm.",
+        "nominal_capacity": 5000.00,
+        "estimated_annual_energy": 5000000.00,
+        "stage": "Design",
+        "type": "Solar",
+        "technology": "PV Panels",
+        "power_plant_amount": 50,
+        "days_to_participate": 30,
+        "num_sponsors": 10,
+        "num_financiers": 5,
+        "ppa_duration": 20,
+        "admin_listing_date": "2023-10-01T12:00:00Z",
+        "financing_stage": "Seed"
+    }
+]

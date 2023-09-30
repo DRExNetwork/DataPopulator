@@ -1,0 +1,29 @@
+[
+    {
+        "project_id": 1,
+        "interest_rate": 5.00,
+        "panel_count": 5000,
+        "panel_brand": "EcoPanels",
+        "energy_cost_annual": 100000.00,
+        "energy_maintenance_cost_annual": 5000.00,
+        "energy_tariff": 0.05,
+        "projected_income": 150000.00,
+        "maintenance_cost_annual": 5000.00,
+        "insurance_cost_annual": 10000.00,
+        "drex_cost_annual": 1000.00,
+        "radiation_onsite": 1000,
+        "technical_memo": "memo_12345.pdf",
+        "technical_blueprint": "blueprint_12345.pdf",
+        "technical_equipment_specs": "specs_12345.pdf",
+        "operation_estimate": "2023-10-01",
+        "construction_starts_estimate": "2023-11-01",
+        "legal_document": "legal_12345.pdf",
+        "commercial_offer": "offer_12345.pdf",
+        "intention_letter": "letter_12345.pdf",
+        "insurance_funding": "funding_12345.pdf",
+        "insurance_completion": "completion_12345.pdf",
+        "insurance_all_risks": "risks_12345.pdf",
+        "insurance_energy_generation": "generation_12345.pdf",
+        "insurance_assets_services": "services_12345.pdf"
+    }      
+]

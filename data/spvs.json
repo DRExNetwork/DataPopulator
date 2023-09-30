@@ -1,0 +1,10 @@
+[
+    {
+        "project_id": 1,
+        "bank_account_id": 1,
+        "name": "GreenSPV",
+        "payment_method": "Bank Transfer",
+        "country": "USA",
+        "account_name": "Green Energy Corp."
+    }      
+]

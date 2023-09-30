@@ -1,0 +1,15 @@
+[
+    {
+        "financier_id": 1,
+        "location_id": 1,
+        "user_id": 1,
+        "wallet_address": "0xABC123DEF456GHI789",
+        "company_name": "FinTech Solutions",
+        "tax_id": "FTS-987654",
+        "representative_role": "CEO",
+        "webpage": "https://fintechsolutions.com",
+        "google_maps_location": "https://maps.google.com/?q=FinTech+Solutions",
+        "telephone": 1234567890,
+        "profile_picture": "https://fintechsolutions.com/profile.jpg"
+    }
+]

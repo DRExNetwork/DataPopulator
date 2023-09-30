@@ -1,0 +1,11 @@
+[
+    {
+        "project_id": 1,
+        "name": "Routine Checkup",
+        "date": "2023-10-01",
+        "description": "Checking solar panels.",
+        "provider": "Solar Services Inc.",
+        "pictures": "image_12345.jpg",
+        "report": "report_12345.pdf"
+    }      
+]

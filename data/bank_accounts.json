@@ -1,0 +1,9 @@
+[
+    {
+        "account_name": "Green Energy Corp.",
+        "account_number": 98765432,
+        "account_type": "Corporate",
+        "bank_name": "EcoBank",
+        "swift_code": "ECOBANKXX"
+    }  
+]

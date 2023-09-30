@@ -1,0 +1,13 @@
+[
+    {
+        "investor_assignment_id": 1,
+        "transfer_id": 1234567890,
+        "transferred_payment_timestamp": "2023-10-01T12:00:00Z",
+        "registered_payment_timestamp": "2023-10-01T12:00:00Z",
+        "expected_payment_timestamp": null,
+        "amount": 1000,
+        "state": "Completed",
+        "pdf": "receipt_12345.pdf",
+        "bank_fee": 10
+    }
+]

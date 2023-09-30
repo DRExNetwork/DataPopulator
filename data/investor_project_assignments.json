@@ -1,0 +1,9 @@
+[
+    {
+        "project_id": 1,
+        "financier_id": 1,
+        "interest_date": "2023-10-01T12:00:00Z",
+        "commitment_level": "Unfollowed",
+        "assigned_date": "2023-10-01T12:00:00Z"
+    }  
+]
