@@ -1,17 +1,15 @@
 import psycopg2
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
+from config import db_config
 
 def conectar():
     try:
         conexion = psycopg2.connect(
-            database=os.getenv('DATABASE_NAME'),
-            user=os.getenv('DATABASE_USER'),
-            password=os.getenv('DATABASE_PASSWORD'),
-            host=os.getenv('DATABASE_HOST'),
-            port=os.getenv('DATABASE_PORT')
+            database=db_config.DB_NAME,
+            user=db_config.DB_USER,
+            password=db_config.DB_PASSWORD,
+            host=db_config.DB_HOST,
+            port=db_config.DB_PORT
         )
         return conexion
     except Exception as e:
@@ -37,6 +35,24 @@ def generic_insert(sql, data, multiple):
     
     return result
 
+def delete_records_by_ids(ids_with_details):
+    """ Elimina registros por ID. """
+    con = conectar()
+    cur = con.cursor()
+    all_deleted = True  # Indicador para controlar si todos los registros se eliminaron
+    for id, column_name, table_name in ids_with_details:
+        try:
+            cur.execute(f"DELETE FROM {table_name} WHERE {column_name} = %s", (id,))
+            print(f"Record with {column_name} {id} from table {table_name} deleted successfully.")
+        except Exception as e:
+            print(f"Failed to delete record with {column_name} {id} from table {table_name}. Error: {e}")
+            all_deleted = False  # Si hay un error, establecer el indicador en False
+    
+    con.commit()
+    cur.close()
+    con.close()
+
+    return all_deleted
 
 
 
