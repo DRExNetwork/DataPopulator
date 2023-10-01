@@ -1,22 +1,23 @@
 import psycopg2
-
 from config import db_config
 
-def conectar():
+def connect():
+    """Establish a connection to the database using provided configurations."""
     try:
-        conexion = psycopg2.connect(
+        connection = psycopg2.connect(
             database=db_config.DB_NAME,
             user=db_config.DB_USER,
             password=db_config.DB_PASSWORD,
             host=db_config.DB_HOST,
             port=db_config.DB_PORT
         )
-        return conexion
+        return connection
     except Exception as e:
-        print("Error al conectar a la base de datos:", e)
+        print("Error connecting to the database:", e)
 
 def generic_insert(sql, data, multiple):
-    con = conectar()
+    """Generic method to insert data into the database. Returns the IDs of the inserted rows."""
+    con = connect()
     cur = con.cursor()
     
     if multiple:
@@ -27,36 +28,36 @@ def generic_insert(sql, data, multiple):
         result = ids
     else:
         cur.execute(sql, data)
-        result = cur.fetchone()[0]  # Obtiene el ID de la inserción única
+        result = cur.fetchone()[0]  # Retrieve the ID of the inserted row.
     
     con.commit()
     cur.close()
     con.close()
-    
     return result
 
 def delete_records_by_ids(ids_with_details):
-    """ Elimina registros por ID. """
-    con = conectar()
+    """Delete records from the database based on provided IDs and details."""
+    con = connect()
     cur = con.cursor()
-    all_deleted = True  # Indicador para controlar si todos los registros se eliminaron
+    all_deleted = True  # Indicator to check if all records were deleted successfully.
     for id, column_name, table_name in ids_with_details:
         try:
             cur.execute(f"DELETE FROM {table_name} WHERE {column_name} = %s", (id,))
             print(f"Record with {column_name} {id} from table {table_name} deleted successfully.")
         except Exception as e:
             print(f"Failed to delete record with {column_name} {id} from table {table_name}. Error: {e}")
-            all_deleted = False  # Si hay un error, establecer el indicador en False
+            all_deleted = False  # If an error occurred, set the indicator to False.
     
     con.commit()
     cur.close()
     con.close()
-
     return all_deleted
 
-
+# The following functions handle specific table operations. 
+# They typically define the SQL command for the operation and then use the generic_insert method.
 
 def create_locations(list, multiple=False):
+    """Insert data into the 'locations' table."""
     sql = """
     INSERT INTO public.locations (
         country, city, district, postal_code
@@ -66,6 +67,7 @@ def create_locations(list, multiple=False):
     return generic_insert(sql, list, multiple)
 
 def create_users(list, multiple=False):
+    """Insert data into the 'users' table."""
     sql = """
     INSERT INTO users (
         location_id, code, is_solar_dev_role, is_financier_role, 
