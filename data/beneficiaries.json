@@ -1,7 +1,9 @@
-{
-    "bank_account_id": 1,
-    "financier_id": 1,
-    "beneficiary_name": "John Doe",
-    "beneficiary_address_1": "123 Solar St.",
-    "beneficiary_address_2": "Suite 5B"
-}
+[
+    {
+        "bank_account_id": 1,
+        "financier_id": 1,
+        "beneficiary_name": "John Doe",
+        "beneficiary_address_1": "123 Solar St.",
+        "beneficiary_address_2": "Suite 5B"
+    }
+]

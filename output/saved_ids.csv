@@ -1,2 +1,5 @@
-70,user_id,users
-46,location_id,locations
+80,user_id,users
+57,location_id,locations
+10,financier_id,financiers
+80,offtaker_id,offtakers
+80,developer_id,developers

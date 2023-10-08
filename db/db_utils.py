@@ -66,10 +66,10 @@ def create_locations(list, multiple=False):
 
     return generic_insert(sql, list, multiple)
 
-def create_users(list, multiple=False):
+def create_users(list, multiple=False): #need to write a update function 
     """Insert data into the 'users' table."""
     sql = """
-    INSERT INTO users (
+    INSERT INTO public.users (
         location_id, code, is_solar_dev_role, is_financier_role, 
         is_sponsor_role, is_sme_role, is_admin, id_type, phone, 
         name, email, contact_email, password, contact_phone, 
@@ -78,6 +78,37 @@ def create_users(list, multiple=False):
     """
 
     return generic_insert(sql, list, multiple)
+
+
+def create_financier(list, multiple=False):
+    """Insert data into the 'financiers' table."""
+    sql = """
+    INSERT INTO public.financiers (
+        user_id, location_id,  wallet_address, 
+        company_name, tax_id, representative_role, webpage,
+        google_maps_location, telephone, profile_picture
+    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING financier_id
+    """
+    return generic_insert(sql, list, multiple)
+
+def create_offtaker(list, multiple=False):
+    """Insert data into the 'offtakers' table."""
+    sql = """
+    INSERT INTO public.offtakers (
+        user_id, industry, description, annual_sales
+    ) VALUES (%s, %s, %s, %s) RETURNING user_id
+    """
+    return generic_insert(sql, list, multiple)
+
+def create_developer(list, multiple=False):
+    """Insert data into the 'developers' table."""
+    sql = """
+    INSERT INTO public.developers (
+        user_id, capacity_history, years_experience, description
+    ) VALUES (%s, %s, %s, %s) RETURNING user_id
+    """
+    return generic_insert(sql, list, multiple)
+
 
 def create_beneficiaries(list, multiple=False):
     sql = """
@@ -117,6 +148,16 @@ def create_financier_payments(list, multiple=False):
     """
     
     return generic_insert(sql, list, multiple)
+
+def create_financier_receipt_info(list, multiple=False):
+    """Insert data into the 'financier_details' table."""
+    sql = """
+    INSERT INTO public.financier_receipt_information (
+        financier_id, name, tax_id,
+        address, email, phone
+    ) VALUES (%s, %s, %s, %s, %s, %s) RETURNING financier_id
+    """
+    return generic_insert(sql,list,multiple)
 
 def create_financier_receipt_details(list, multiple=False):
     sql = """
@@ -209,3 +250,55 @@ def create_spvs(list, multiple=False):
     """
 
     return generic_insert(sql, list, multiple)
+
+def create_project_developer_assignments(list, multiple=False):
+    """Insert data into the 'project_developer_assignments' table."""
+    sql = """
+    INSERT INTO public.project_developer_assignments (
+        project_id, developer_id,
+        assigned_date_time, disbursement_count
+    ) VALUES (%s, %s, %s, %s) RETURNING developer_assignment_id
+    """
+    return generic_insert(sql,list,multiple)
+
+def create_disbursement(list, multiple=False):
+    """Insert data into the 'disbursements' table."""
+    sql = """
+    INSERT INTO public.disbursements (
+        developer_assignment_id, amount, status,
+        description, date, 
+    ) VALUES (%s, %s, %s, %s, %s) RETURNING disbursement_id
+    """
+    return generic_insert(sql,list,multiple)
+
+def create_sme_project_assignment(list, multiple=False):
+    """Insert data into the 'sme_project_assignments' table."""
+    sql = """
+    INSERT INTO public.sme_project_assignments (
+         project_id, sme_id,
+        energy_consumption_annual, ppa_discount, total_owed_amount,
+        loan_repayment_count
+    ) VALUES ( %s, %s, %s, %s, %s, %s) RETURNING sme_project_id
+    """
+    return generic_insert(sql,list,multiple)
+
+
+def create_sme_deposit(list, multiple=False):
+    """Insert data into the 'sme_deposits' table."""
+    sql = """
+    INSERT INTO public.sme_deposits (
+         sme_project_id, amount,
+        remaining, status, date
+    ) VALUES ( %s, %s, %s, %s, %s) RETURNING deposit_id
+    """
+    return generic_insert(sql,list,multiple)
+
+def create_sme_loan_repayment(list, multiple=False):
+    """Insert data into the 'sme_loan_repayments' table."""
+    sql = """
+    INSERT INTO public.sme_loan_repayments (
+         sme_project_id, progress,
+        sme_deposit_energy
+    ) VALUES  (%s, %s, %s) RETURNING loan_repayment_id
+    """
+    generic_insert(sql,list,multiple)
