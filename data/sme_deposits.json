@@ -1,0 +1,9 @@
+[
+    {
+        "sme_project_id": 1,
+        "amount": 1000.00,
+        "remaining": 500.00,
+        "status": "Pending",
+        "date": "2023-10-01"
+    }
+]

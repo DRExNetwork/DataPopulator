@@ -1,0 +1,10 @@
+[
+    {
+        "project_id": 1,
+        "sme_id": 1,
+        "energy_consumption_annual": 10000.00,
+        "ppa_discount": 5.00,
+        "total_owed_amount": 5000.00,
+        "loan_repayment_count": 5
+    }
+]
